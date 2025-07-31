@@ -17,47 +17,30 @@ PINECONE_INDEX=your_pinecone_index_name
 
 ## Frontend Deployment Options
 
-### Option 1: Deploy to Vercel (Recommended)
+### Option 1: Deploy to Vercel (Most Reliable)
 
-#### Current Configuration ✅
+#### Step 1: Deploy from Frontend Directory
 
-The project now has the correct Vercel configuration:
-
-**vercel.json:**
-```json
-{
-  "buildCommand": "cd frontend && npm install && npm run build",
-  "outputDirectory": "frontend/.next",
-  "framework": "nextjs"
-}
-```
-
-**package.json:**
-```json
-{
-  "name": "chatbot-nextjs",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "cd frontend && npm install && npm run build",
-    "dev": "cd frontend && npm run dev",
-    "start": "cd frontend && npm run start"
-  }
-}
-```
-
-#### Deploy to Vercel
-
-1. **Push the changes to GitHub:**
+1. **Navigate to the frontend directory:**
 ```bash
-git add .
-git commit -m "Add working Vercel configuration"
-git push
+cd frontend
 ```
 
-2. **Vercel will automatically redeploy** with the new configuration
+2. **Deploy to Vercel:**
+```bash
+vercel --prod
+```
 
-3. **Set Environment Variable in Vercel dashboard:**
+3. **Follow the prompts:**
+   - Link to existing project or create new
+   - Set project name
+   - Confirm deployment
+
+#### Step 2: Set Environment Variables
+
+After deployment, go to your Vercel project dashboard:
+1. **Navigate to Settings → Environment Variables**
+2. **Add environment variable:**
    - **Name:** `NEXT_PUBLIC_API_URL`
    - **Value:** `https://chatbot-using-next-js.onrender.com`
    - **Environment:** All (Production, Preview, Development)
@@ -109,9 +92,9 @@ services:
 ## Troubleshooting
 
 ### Vercel Build Issues
-- **Error:** "routes-manifest.json couldn't be found"
-  - **Solution:** The new `vercel.json` configuration should fix this
-  - **Alternative:** Deploy from `frontend/` directory directly
+- **Error:** "Command cd frontend && npm install && npm run build exited with 1"
+  - **Solution:** Deploy from `frontend/` directory directly
+  - **Alternative:** Use Render deployment
 
 ### Render Build Issues
 - **Error:** "Invalid rootDirectory"
@@ -140,10 +123,9 @@ services:
 ## Quick Commands
 
 ```bash
-# Push changes to trigger deployment
-git add .
-git commit -m "Add working Vercel configuration"
-git push
+# Deploy frontend to Vercel (Option 1)
+cd frontend
+vercel --prod
 
 # Test backend locally
 cd backend
