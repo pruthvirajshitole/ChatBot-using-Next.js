@@ -11,9 +11,15 @@ load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 # Add GROQ_API_KEY
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-# Initialize embedding model
-EMBEDDING_MODEL = os.getenv("HF_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
-embedder = SentenceTransformer(EMBEDDING_MODEL)
+# Initialize embedding model with lazy loading
+EMBEDDING_MODEL = os.getenv("HF_MODEL", "sentence-transformers/paraphrase-MiniLM-L3-v2")
+_embedder = None
+
+def get_embedder():
+    global _embedder
+    if _embedder is None:
+        _embedder = SentenceTransformer(EMBEDDING_MODEL)
+    return _embedder
 
 # Initialize Pinecone client and index
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
@@ -39,6 +45,7 @@ def call_llm(prompt: str) -> str:
 
 
 def embed_query(query: str) -> List[float]:
+    embedder = get_embedder()
     return embedder.encode([query])[0].tolist()
 
 
