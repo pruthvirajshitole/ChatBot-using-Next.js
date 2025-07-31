@@ -43,6 +43,10 @@ PINECONE_INDEX=your_pinecone_index_name
 - The current requirements.txt uses flexible versioning
 - If issues persist, try Python 3.9 instead of 3.10
 
+### Package Name Issues
+- **Pinecone**: Use `pinecone` package (not `pinecone-client`)
+- **Import**: Use `from pinecone import Pinecone`
+
 ### Build Failures
 - Check that all environment variables are set
 - Ensure Pinecone index exists and is accessible

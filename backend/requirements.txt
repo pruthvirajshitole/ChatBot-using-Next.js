@@ -2,7 +2,7 @@ fastapi
 uvicorn[standard]
 python-dotenv
 sentence-transformers
-pinecone-client
+pinecone
 groq
 pydantic
 torch
