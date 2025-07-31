@@ -1,9 +1,9 @@
 fastapi
 uvicorn[standard]
 python-dotenv
-sentence-transformers
 pinecone-client
 groq
 pydantic
-torch
-transformers
+scikit-learn
+numpy
+scipy 
