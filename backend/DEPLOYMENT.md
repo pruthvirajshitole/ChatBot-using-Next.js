@@ -32,6 +32,14 @@ PINECONE_ENV=your_pinecone_environment
 PINECONE_INDEX=your_pinecone_index_name
 ```
 
+## Debugging Endpoints
+
+Once deployed, you can check the status using these endpoints:
+
+- `GET /` - Basic health check
+- `GET /health` - Memory and status check
+- `GET /env-check` - Check if environment variables are set (without exposing values)
+
 ## Troubleshooting
 
 ### Memory Issues
@@ -46,6 +54,11 @@ PINECONE_INDEX=your_pinecone_index_name
 ### Package Name Issues
 - **Pinecone**: Use `pinecone` package (not `pinecone-client`)
 - **Import**: Use `from pinecone import Pinecone`
+
+### Port Binding Issues
+- Check the `/env-check` endpoint to verify environment variables
+- Ensure all required API keys are set in Render dashboard
+- Check Render logs for startup errors
 
 ### Build Failures
 - Check that all environment variables are set
@@ -63,4 +76,15 @@ uvicorn main:app --reload
 Test endpoints:
 - `GET /` - Health check
 - `GET /health` - Memory status
-- `POST /chat` - Chat endpoint 
+- `GET /env-check` - Environment variables check
+- `POST /chat` - Chat endpoint
+
+## Alternative Startup
+
+If you're having issues with the standard startup, you can use the debug startup script:
+
+```bash
+python start.py
+```
+
+This will perform comprehensive checks before starting the application. 
