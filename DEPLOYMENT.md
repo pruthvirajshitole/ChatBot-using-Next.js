@@ -19,30 +19,23 @@ PINECONE_INDEX=your_pinecone_index_name
 
 ### Current Configuration ✅
 
-The project now has the correct Vercel configuration:
+The project now has a simplified Vercel configuration:
 
 **vercel.json:**
 ```json
 {
-  "buildCommand": "cd frontend && npm run build",
-  "outputDirectory": "frontend/.next",
-  "installCommand": "cd frontend && npm install",
+  "rootDirectory": "frontend",
   "framework": "nextjs"
 }
 ```
 
-**package.json:**
-```json
-{
-  "name": "chatbot-nextjs",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "cd frontend && npm run build",
-    "dev": "cd frontend && npm run dev",
-    "start": "cd frontend && npm run start"
-  }
-}
+**.vercelignore:**
+```
+backend/
+node_modules/
+.git/
+.env
+.env.local
 ```
 
 ### Deploy to Vercel
@@ -50,7 +43,7 @@ The project now has the correct Vercel configuration:
 1. **Push the changes to GitHub:**
 ```bash
 git add .
-git commit -m "Add Vercel configuration"
+git commit -m "Simplify Vercel configuration"
 git push
 ```
 
@@ -74,8 +67,8 @@ Set in Vercel dashboard:
 ## Troubleshooting
 
 ### Vercel Build Issues
-- **Error:** "routes-manifest.json couldn't be found"
-  - **Solution:** The new `vercel.json` configuration should fix this
+- **Error:** "Command cd frontend && npm install exited with 1"
+  - **Solution:** Using simplified `vercel.json` with `rootDirectory: "frontend"`
   - **Alternative:** Deploy from `frontend/` directory directly
 
 ### Backend Connection Issues
@@ -102,7 +95,7 @@ Set in Vercel dashboard:
 ```bash
 # Push changes to trigger Vercel deployment
 git add .
-git commit -m "Add Vercel configuration"
+git commit -m "Simplify Vercel configuration"
 git push
 
 # Test backend locally
