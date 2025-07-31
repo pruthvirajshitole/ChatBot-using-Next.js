@@ -19,37 +19,22 @@ PINECONE_INDEX=your_pinecone_index_name
 
 ### Option 1: Deploy to Vercel (Recommended)
 
-#### Current Configuration ✅
+#### Step 1: Create New Vercel Project
 
-**vercel.json:**
-```json
-{
-  "rootDirectory": "frontend",
-  "framework": "nextjs"
-}
-```
+1. **Go to Vercel dashboard**
+2. **Click "New Project"**
+3. **Import your GitHub repository:** `pruthvirajshitole/ChatBot-using-Next.js`
+4. **In the configuration step:**
+   - **Framework Preset:** Next.js
+   - **Root Directory:** `frontend` ⭐ **IMPORTANT**
+   - **Project Name:** `chat-bot-using-next-js` (or your preferred name)
+5. **Click "Deploy"**
 
-**.vercelignore:**
-```
-backend/
-node_modules/
-.git/
-.env
-.env.local
-```
+#### Step 2: Set Environment Variables
 
-#### Deploy to Vercel
-
-1. **Push the changes to GitHub:**
-```bash
-git add .
-git commit -m "Add Vercel configuration"
-git push
-```
-
-2. **Vercel will automatically redeploy** with the new configuration
-
-3. **Set Environment Variable in Vercel dashboard:**
+After deployment, go to your project settings:
+1. **Navigate to Settings → Environment Variables**
+2. **Add environment variable:**
    - **Name:** `NEXT_PUBLIC_API_URL`
    - **Value:** `https://chatbot-using-next-js.onrender.com`
    - **Environment:** All (Production, Preview, Development)
@@ -61,6 +46,23 @@ git push
 **render.yaml:**
 ```yaml
 services:
+  - type: web
+    name: chatbot-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1 --log-level info
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHONDONTWRITEBYTECODE
+        value: 1
+      - key: PORT
+        value: 8000
+    plan: starter
+    rootDir: backend
+
   - type: web
     name: chatbot-frontend
     env: node
@@ -84,8 +86,8 @@ services:
 ## Troubleshooting
 
 ### Vercel Build Issues
-- **Error:** "Command cd frontend && npm install exited with 1"
-  - **Solution:** Using simplified `vercel.json` with `rootDirectory: "frontend"`
+- **Error:** "Invalid request: should NOT have additional property `rootDirectory`"
+  - **Solution:** Use Vercel dashboard to set root directory to `frontend`
   - **Alternative:** Deploy from `frontend/` directory directly
 
 ### Render Build Issues
@@ -115,11 +117,6 @@ services:
 ## Quick Commands
 
 ```bash
-# Push changes to trigger deployment
-git add .
-git commit -m "Add deployment configuration"
-git push
-
 # Test backend locally
 cd backend
 uvicorn main:app --reload
