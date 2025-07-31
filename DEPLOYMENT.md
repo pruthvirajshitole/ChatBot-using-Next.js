@@ -15,11 +15,11 @@ PINECONE_ENV=your_pinecone_environment
 PINECONE_INDEX=your_pinecone_index_name
 ```
 
-## Frontend (Vercel) 🔄 DEPLOYING
+## Frontend Deployment Options
 
-### Current Configuration ✅
+### Option 1: Deploy to Vercel (Recommended)
 
-The project now has a simplified Vercel configuration:
+#### Current Configuration ✅
 
 **vercel.json:**
 ```json
@@ -38,31 +38,48 @@ node_modules/
 .env.local
 ```
 
-### Deploy to Vercel
+#### Deploy to Vercel
 
 1. **Push the changes to GitHub:**
 ```bash
 git add .
-git commit -m "Simplify Vercel configuration"
+git commit -m "Add Vercel configuration"
 git push
 ```
 
 2. **Vercel will automatically redeploy** with the new configuration
 
-### Alternative: Manual Deploy
+3. **Set Environment Variable in Vercel dashboard:**
+   - **Name:** `NEXT_PUBLIC_API_URL`
+   - **Value:** `https://chatbot-using-next-js.onrender.com`
+   - **Environment:** All (Production, Preview, Development)
 
-If automatic deployment doesn't work:
+### Option 2: Deploy to Render
 
-1. **Go to Vercel dashboard**
-2. **Redeploy your project** (it will use the new configuration)
-3. **Or create a new project** and import your repository
+#### Configuration ✅
 
-## Environment Variables for Frontend
+**render.yaml:**
+```yaml
+services:
+  - type: web
+    name: chatbot-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: NEXT_PUBLIC_API_URL
+        value: https://chatbot-using-next-js.onrender.com
+    plan: starter
+    rootDir: frontend
+```
 
-Set in Vercel dashboard:
-- **Name:** `NEXT_PUBLIC_API_URL`
-- **Value:** `https://chatbot-using-next-js.onrender.com`
-- **Environment:** All (Production, Preview, Development)
+#### Deploy to Render
+
+1. **Push the changes to GitHub**
+2. **Connect your repository to Render**
+3. **Render will automatically deploy both backend and frontend**
 
 ## Troubleshooting
 
@@ -70,6 +87,11 @@ Set in Vercel dashboard:
 - **Error:** "Command cd frontend && npm install exited with 1"
   - **Solution:** Using simplified `vercel.json` with `rootDirectory: "frontend"`
   - **Alternative:** Deploy from `frontend/` directory directly
+
+### Render Build Issues
+- **Error:** "Invalid rootDirectory"
+  - **Solution:** Use `rootDir: frontend` (not `rootDirectory`)
+  - **Alternative:** Deploy services separately
 
 ### Backend Connection Issues
 - ✅ Backend is running at https://chatbot-using-next-js.onrender.com/
@@ -84,7 +106,7 @@ Set in Vercel dashboard:
 - [ ] `GET /env-check` - Shows environment variables status
 - [ ] `POST /chat` - Responds to queries
 
-### Frontend (Vercel) 🔄
+### Frontend (Vercel/Render) 🔄
 - [ ] Loads without errors
 - [ ] Connects to backend
 - [ ] Sends and receives chat messages
@@ -93,9 +115,9 @@ Set in Vercel dashboard:
 ## Quick Commands
 
 ```bash
-# Push changes to trigger Vercel deployment
+# Push changes to trigger deployment
 git add .
-git commit -m "Simplify Vercel configuration"
+git commit -m "Add deployment configuration"
 git push
 
 # Test backend locally

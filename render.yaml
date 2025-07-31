@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: chatbot-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1 --log-level info
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHONDONTWRITEBYTECODE
+        value: 1
+      - key: PORT
+        value: 8000
+    plan: starter
+    rootDir: backend
+
+  - type: web
+    name: chatbot-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: NEXT_PUBLIC_API_URL
+        value: https://chatbot-backend.onrender.com
+    plan: starter
+    rootDir: frontend 
